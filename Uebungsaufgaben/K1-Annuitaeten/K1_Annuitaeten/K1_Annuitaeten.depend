@@ -1,0 +1,5 @@
+# depslib dependency file v1.0
+1679436708 source:/home/pi/TI3Embedded/ti3-es/Uebungsaufgaben/K1-Annuitaeten/K1_Annuitaeten/main.c
+	<stdio.h>
+	<stdlib.h>
+
