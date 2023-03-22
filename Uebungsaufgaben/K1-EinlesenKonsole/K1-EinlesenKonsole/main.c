@@ -1,15 +1,21 @@
 #include <stdio.h>
-#include <stdlib.h>
-
-int main()
+int main(void)
 {
-    //create buffer variable to store console input
-    char buffer = 0;
+    char a[16],b[16],c[16];
+    printf("1. Buchstabe: ");
 
-    //store console input into buffer variable
-    scanf("%c", &buffer);
+    //use gets() function to get an correct input
 
-    //return input back to console
-    printf("%c!\n", buffer);
+    gets(a);
+    printf("2. Buchstabe: ");
+
+    gets(b);
+    fflush(stdin);
+    printf("3. Buchstabe: ");
+
+    gets(c);
+    fflush(stdin);
+    printf("Sie gaben ein : %s %s %s \n", a, b, c);
+
     return 0;
 }
