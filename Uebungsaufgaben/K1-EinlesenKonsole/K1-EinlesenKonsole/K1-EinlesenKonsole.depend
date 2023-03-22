@@ -1,5 +1,4 @@
 # depslib dependency file v1.0
-1679471721 source:/home/pi/TI3Embedded/ti3-es/Uebungsaufgaben/K1-EinlesenKonsole/K1-EinlesenKonsole/main.c
+1679473004 source:/home/pi/TI3Embedded/ti3-es/Uebungsaufgaben/K1-EinlesenKonsole/K1-EinlesenKonsole/main.c
 	<stdio.h>
-	<stdlib.h>
 
