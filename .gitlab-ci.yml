@@ -1,0 +1,46 @@
+# Docker Image
+image: bkormann/hm-gcc-cmocka:8.5.1
+
+stages:
+  - build
+  - test
+  - metric
+
+
+buildVersuch01:
+  stage: build
+  script:
+    - cd Praktikum/Versuch01
+    - mkdir -p bin
+    - mkdir -p build
+    - gcc -c ti_bmp.c -o build/ti_bmp.o
+    - gcc -c test/versuch01_test.c -I. -o build/versuch01_test.o
+    - gcc build/versuch01_test.o build/ti_bmp.o -o bin/versuch01_test -lcmocka -lm
+  cache:
+    paths:
+      - Praktikum/Versuch01/bin
+
+testVersuch01:
+  stage: test
+  needs: [buildVersuch01]
+  script:
+    - cd Praktikum/Versuch01
+    - touch bin/report01.xml ; rm bin/report01.xml
+    - CMOCKA_MESSAGE_OUTPUT=XML CMOCKA_XML_FILE=bin/report01.xml bin/versuch01_test    
+  cache:
+    paths:
+      - Praktikum/Versuch01/bin
+  artifacts:
+    when: always
+    reports:
+      junit: Praktikum/Versuch01/bin/report*.xml
+      
+docVersuch01:
+  stage: metric
+  script:
+    - cd Praktikum/Versuch01
+    - cloc --by-percent cmb *.h *.c > clocVersuch01.txt
+  artifacts:
+    paths:
+      - Praktikum/Versuch01/clocVersuch01.txt
+
