@@ -1,0 +1,5 @@
+# depslib dependency file v1.0
+1680204155 source:/home/johannes/Documents/ti3-es/Uebungsaufgaben/K2-Zeiger/K2-Zeiger/main.c
+	<stdio.h>
+	<stdlib.h>
+
