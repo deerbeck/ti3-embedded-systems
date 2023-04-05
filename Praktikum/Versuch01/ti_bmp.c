@@ -20,18 +20,36 @@ uint8_t* genBackgroundImage(int32_t width, int32_t height, uint8_t bgcolor)
 
 void drawCircles(uint8_t* image, int32_t width, int32_t height, uint8_t circleCount, uint32_t pointsPerCircle, uint8_t color)
 {
-    //get center of image
+    //get center of image M_B_X = M_B[0] and M_B_Y = M_B[1]
     uint64_t M_B[2] = {(width/2), (height/2)};
     //calculate smallest radius of image
     uint64_t s_radius;
     if(width<height) s_radius = width/circleCount;
-    else s_radius = height/circleCount;
+    else s_radius = ((height/(circleCount+0.5))/2);
 
+    //loop through points and calculate angle
+    double angle = 0, x_val = 0, y_val = 0;
+
+    //loop through number of circles to draw each circles
+    for(int j = 1; j<(circleCount+1); j++)
+    {
+        for(int i = 0; i< pointsPerCircle; i++)
+        {
+            //calculating angle and coordinates step by step to make code more readable
+            angle = (i/(float)pointsPerCircle)*2*M_PI;
+            x_val = s_radius* j * cos(angle);
+            y_val = s_radius* j  * sin(angle);
+
+            //use pointer_calc function to get translation of coordinates
+            *(image + pointer_calc((M_B[0] +(uint64_t) x_val),(M_B[1] + (uint64_t) y_val),height)) = 0;
+        }
+    }
 
     *(image + pointer_calc(M_B[0],M_B[1],height)) = 0;
 }
 
-uint64_t pointer_calc(uint32_t x, uint32_t y, uint32_t height){
+uint64_t pointer_calc(uint32_t x, uint32_t y, uint32_t height)
+{
 
     uint64_t result;
 
