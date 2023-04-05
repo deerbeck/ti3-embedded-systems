@@ -1,0 +1,5 @@
+# depslib dependency file v1.0
+1680676891 source:/home/johannes/Documents/ti3-es/Uebungsaufgaben/K2-Verschluesselung/K2-Verschluesselung/main.c
+	<stdio.h>
+	<stdlib.h>
+
