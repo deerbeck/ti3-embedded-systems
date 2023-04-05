@@ -11,19 +11,20 @@ int main()
     return 0;
 }
 
+
 char* encoding(char* text, char* key)
 {
-    int s_len = strlen(text), test1 = 0;
+    int s_len = strlen(text), test1 = 0, i = 0;
     char result[s_len + 1];
 
-    for(int i = 0; i < s_len; i++)
+    while(*(text+i) != '\0')
     {
-
-        result[i] = (*(text+i))^((0b00001111)&*(key+i));
+        i++;
+        *(result + i) = (*(text+i))^((0b00001111)&*(key+(i%s_len)));
 
         //("%b\n", *(text));
         //printf("\n");
-        printf("%c\n",result[i]);
+        printf("%d\n",i);
         //printf("%c\n", *(key+i));
     }
 }
