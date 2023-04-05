@@ -20,12 +20,27 @@ uint8_t* genBackgroundImage(int32_t width, int32_t height, uint8_t bgcolor)
 
 void drawCircles(uint8_t* image, int32_t width, int32_t height, uint8_t circleCount, uint32_t pointsPerCircle, uint8_t color)
 {
-    // TODO
+    //get center of image
     uint64_t M_B[2] = {(width/2), (height/2)};
+    //calculate smallest radius of image
+    uint64_t s_radius;
+    if(width<height) s_radius = width/circleCount;
+    else s_radius = height/circleCount;
 
-    image[M_B[0]][M_B[1]] = 0;
+
+    *(image + pointer_calc(M_B[0],M_B[1],height)) = 0;
 }
 
+uint64_t pointer_calc(uint32_t x, uint32_t y, uint32_t height){
+
+    uint64_t result;
+
+    //get length of addres through this formula and return it to get access to array
+    result = x + (y * height);
+
+    return result;
+
+}
 
 uint8_t saveBmpGray(char* filename, int32_t width, int32_t height, uint8_t* data)
 {

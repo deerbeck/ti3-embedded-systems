@@ -39,3 +39,8 @@ void drawCircles(uint8_t* image, int32_t width, int32_t height, uint8_t circleCo
  * @retval -1 file couldn't be created
  */
 uint8_t saveBmpGray(char* filename, int32_t width, int32_t height, uint8_t* data);
+
+/*
+gets pointerindex from x and y coordinate
+*/
+uint64_t pointer_calc(uint32_t x, uint32_t y, uint32_t height);
