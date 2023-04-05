@@ -21,7 +21,9 @@ uint8_t* genBackgroundImage(int32_t width, int32_t height, uint8_t bgcolor)
 void drawCircles(uint8_t* image, int32_t width, int32_t height, uint8_t circleCount, uint32_t pointsPerCircle, uint8_t color)
 {
     // TODO
-    ;
+    uint64_t M_B[2] = {(width/2), (height/2)};
+
+    image[M_B[0]][M_B[1]] = 0;
 }
 
 
