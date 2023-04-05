@@ -6,8 +6,16 @@
 
 uint8_t* genBackgroundImage(int32_t width, int32_t height, uint8_t bgcolor)
 {
-    // TODO
-    return NULL;
+    //get datasize and generate image pointer
+    uint64_t datasize = width * height;
+    uint8_t* image = (uint8_t*) malloc(sizeof(uint8_t) * datasize);
+
+    //set each value of image array to bgcolor
+    for(uint64_t i = 0; i<datasize; i++)
+    {
+        *(image + i) = bgcolor;
+    }
+    return image;
 }
 
 void drawCircles(uint8_t* image, int32_t width, int32_t height, uint8_t circleCount, uint32_t pointsPerCircle, uint8_t color)
