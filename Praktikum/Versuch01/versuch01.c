@@ -16,8 +16,8 @@ int main()
 //
 //    saveBmpGray("hello.bmp", width, height, image);
 
-    int32_t width = 200;
-    int32_t height = 200;
+    int32_t width = 2000;
+    int32_t height = 2000;
     char* image = genBackgroundImage(width, height, 222);
     drawCircles(image, width, height, 5, 10000, 7);
     saveBmpGray("firstimage.bmp", width, height, image);
