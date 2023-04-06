@@ -19,10 +19,10 @@ int main()
     int32_t height = 300;
     int32_t width = 200;
     uint8_t circleCount = 2;
-    char name[200];
-    char filename[200];
+    char name[255];
+    char filename[255];
     //buffer for input
-    char buffer[200];
+    char buffer[255];
 
     while(1){
     printf("Geben Sie den Basisdateinamen , die Bildbreite und die Anzahl der Kreise ein (getrennt durch Leerzeichen): \n");
