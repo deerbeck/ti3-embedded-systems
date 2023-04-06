@@ -15,37 +15,37 @@ int main()
 //   }
 //
 //    saveBmpGray("hello.bmp", width, height, image);
-
+    //initialize parameters
     int32_t height = 300;
     int32_t width = 200;
     uint8_t circleCount = 2;
-    int32_t* pwidth;
-    uint8_t* pcircleCount;
-    pwidth = &width;
-    pcircleCount = &circleCount;
-
+    char name[200];
+    char filename[200];
+    //buffer for input
     char buffer[200];
 
-    printf("Geben Sie die Bildbreite und die Anzahl der Kreise ein (getrennt durch Leerzeichen): \n");
+    printf("Geben Sie den Basisdateinamen , die Bildbreite und die Anzahl der Kreise ein (getrennt durch Leerzeichen): \n");
     //Read Input from keyboard and print spacers to make consoleoutput more readable
     fgets(buffer, sizeof(buffer), stdin);
     printf("\n");
 
-    // use sscanf() to extract integers from input line and check for correct input
-    if (sscanf(buffer, "%d %hhu", pwidth, pcircleCount) == 2) {
+    // use sscanf() to extract integers from input line and check for correct input (just use adress from width and circleCount for more readability)
+    if (sscanf(buffer, "%s %d %hhu",name, &width, &circleCount) == 3) {
         //print out input to give user feedback
-        printf("Bild wird mit folgenden Parametern erzeugt:\n   -Bildbreite: %d\n   -Anzahl der Kreise: %d\n.\n.\n.\n", width, circleCount);
+        printf("Bild wird mit folgenden Parametern erzeugt:\n   -Basisdateiname: %s\n   -Bildbreite: %d\n   -Anzahl der Kreise: %d\n.\n.\n.\n", name, width, circleCount);
     } else {
         printf("Fehlerhafte Eingabe!\n");
     }
 
     //set height to width to get quadratic image
     height = width;
+    //Concatenate string with sprintf function to generate the filename
+    sprintf(filename, "%s_%d_%d.bmp", name, width, circleCount);
 
     //execute functions to generate blanc image and draw circles with given parameters
     char* image = genBackgroundImage(width, height, 222);
     drawCircles(image, width, height, circleCount, 10000, 7);
-    saveBmpGray("firstimage.bmp", width, height, image);
+    saveBmpGray(filename, width, height, image);
     // end application successfully
     printf("\n------Bild erfolgreich erzeugt------\n");
     return 0;
