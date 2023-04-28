@@ -7,40 +7,44 @@ stages:
   - metric
 
 
-buildVersuch01:
+buildVersuch02:
   stage: build
   script:
-    - cd Praktikum/Versuch01
+    - cd Praktikum/Versuch02
     - mkdir -p bin
     - mkdir -p build
     - gcc -c ti_bmp.c -o build/ti_bmp.o
     - gcc -c test/versuch01_test.c -I. -o build/versuch01_test.o
+    - gcc -c test/versuch02_test.c -I. -o build/versuch02_test.o
     - gcc build/versuch01_test.o build/ti_bmp.o -o bin/versuch01_test -lcmocka -lm
+    - gcc build/versuch02_test.o build/ti_bmp.o -o bin/versuch02_test -lcmocka -lm
   cache:
     paths:
-      - Praktikum/Versuch01/bin
+      - Praktikum/Versuch02/bin
 
-testVersuch01:
+testVersuch02:
   stage: test
-  needs: [buildVersuch01]
+  needs: [buildVersuch02]
   script:
-    - cd Praktikum/Versuch01
+    - cd Praktikum/Versuch02
     - touch bin/report01.xml ; rm bin/report01.xml
     - CMOCKA_MESSAGE_OUTPUT=XML CMOCKA_XML_FILE=bin/report01.xml bin/versuch01_test    
+    - touch bin/report02.xml ; rm bin/report02.xml
+    - CMOCKA_MESSAGE_OUTPUT=XML CMOCKA_XML_FILE=bin/report02.xml bin/versuch02_test
+
   cache:
     paths:
-      - Praktikum/Versuch01/bin
+      - Praktikum/Versuch02/bin
   artifacts:
     when: always
     reports:
-      junit: Praktikum/Versuch01/bin/report*.xml
+      junit: Praktikum/Versuch02/bin/report*.xml
       
-docVersuch01:
+docVersuch02:
   stage: metric
   script:
-    - cd Praktikum/Versuch01
-    - cloc --by-percent cmb *.h *.c > clocVersuch01.txt
+    - cd Praktikum/Versuch02
+    - cloc --by-percent cmb *.h *.c > clocVersuch02.txt
   artifacts:
     paths:
-      - Praktikum/Versuch01/clocVersuch01.txt
-
+      - Praktikum/Versuch02/clocVersuch02.txt
