@@ -60,8 +60,9 @@ uint64_t pointer_calc(uint32_t x, uint32_t y, uint32_t height)
 // checks if file exists
 int32_t existBmp(char* filename)
 {
-    FILE* file = fopen("HM_cube.bmp", "r");
-    if (file == NULL){
+    FILE* file = fopen(filename, "r");
+    if (file == NULL)
+    {
         printf("Datei konnte nicht gefunden bzw. geöffnet werden!\n");
         return -1;
     }
@@ -73,22 +74,88 @@ int32_t existBmp(char* filename)
 // determine width of bmp image
 int32_t getBmpWidth(char* filename)
 {
-    // TODO:
-    return 42;
+    //check existance of file
+    if (existBmp(filename) != 0)
+    {
+        printf("Datei konnte nicht gefunden bzw. geöffnet werden!\n");
+        return -1;
+    }
+    //define offset and size given from BMP definition which corresponds to the bmp width:
+    int bmp_width_offset = 18, bmp_width_size = 4;
+    //declare variable where size should be saved
+    uint32_t bmp_width = 0;
+
+    //open file and seek position of needed position
+    FILE* file = fopen(filename, "rb");
+    fseek(file, bmp_width_offset, SEEK_SET);
+
+
+    //read data_size on correct position and save it in location of bmp_width
+    fread(&bmp_width, bmp_width_size , 1, file);
+
+    //close file after usage
+    fclose(file);
+
+
+    return bmp_width;
 }
 
 // determine height of bmp image
 int32_t getBmpHeight(char* filename)
 {
-    // TODO:
-    return 42;
+    //check existance of file
+    if (existBmp(filename) != 0)
+    {
+        printf("Datei konnte nicht gefunden bzw. geöffnet werden!\n");
+        return -1;
+    }
+    //define offset and size given from BMP definition which corresponds to the bmp height:
+    int bmp_height_offset = 22, bmp_height_size = 4;
+    //declare variable where size should be saved
+    uint32_t bmp_height = 0;
+
+    //open file and seek position of needed position
+    FILE* file = fopen(filename, "rb");
+    fseek(file, bmp_height_offset, SEEK_SET);
+
+
+    //read data_size on correct position and save it in location of bmp_height
+    fread(&bmp_height, bmp_height_size , 1, file);
+
+    //close file after usage
+    fclose(file);
+
+
+    return bmp_height;
 }
 
 // determine height of bmp image
 uint32_t getBmpDataSize(char* filename)
 {
-    // TODO:
-    return 42;
+    //check existance of file
+    if (existBmp(filename) != 0)
+    {
+        printf("Datei konnte nicht gefunden bzw. geöffnet werden!\n");
+        return -1;
+    }
+    //define offset and size given from BMP definition which corresponds to the bmp datasize:
+    int data_size_offset = 2, data_size_size = 4;
+    //declare variable where size should be saved
+    uint32_t data_size = 0;
+
+    //open file and seek position of needed position
+    FILE* file = fopen(filename, "rb");
+    fseek(file, data_size_offset, SEEK_SET);
+
+
+    //read data_size on correct position and save it in location of data_size
+    fread(&data_size, data_size_size , 1, file);
+
+    //close file after usage
+    fclose(file);
+
+
+    return data_size;
 }
 
 // conversion of rgb image to gray image
