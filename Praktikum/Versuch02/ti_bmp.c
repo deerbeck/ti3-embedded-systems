@@ -141,7 +141,7 @@ uint32_t getBmpDataSize(char* filename)
     //define offset and size given from BMP definition which corresponds to the bmp datasize:
     int data_size_offset = 2, data_size_size = 4;
     //declare variable where size should be saved
-    uint32_t data_size = 0;
+    uint32_t data_size = 1;
 
     //open file and seek position of needed position
     FILE* file = fopen(filename, "rb");
@@ -192,8 +192,7 @@ uint8_t getBmpData(char* filename, uint8_t* data)
 
 
     //read data from bmp
-    fread(data, sizeof(uint8_t), sizeof(data), file);
-
+    if (fread(data, sizeof(uint8_t), sizeof(data), file) == 0) return -1;
 
     //close file after usage
     fclose(file);
