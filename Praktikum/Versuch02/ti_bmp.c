@@ -50,7 +50,7 @@ uint64_t pointer_calc(uint32_t x, uint32_t y, uint32_t height)
 
     uint64_t result;
 
-    //get length of addres through this formula and return it to get access to array
+    //get length of address through this formula and return it to get access to array
     result = x + (y * height);
 
     return result;
@@ -168,8 +168,37 @@ uint8_t* convertRgb2Gray(uint8_t* image, int32_t datasize)
 // get raw data of image
 uint8_t getBmpData(char* filename, uint8_t* data)
 {
-    // TODO:
-    return 42;
+    //check existance of file
+    if (existBmp(filename) != 0)
+    {
+        printf("Datei konnte nicht gefunden bzw. geöffnet werden!\n");
+        return -1;
+    }
+
+    //define offset and size given from BMP definition which corresponds to the bmp data:
+    int bfOffBits_offset = 2, bfOffBits_size = 4;
+    //declare variable where size should be saved
+    uint32_t bfOffBits = 0;
+
+    //open file and seek position of needed position
+    FILE* file = fopen(filename, "rb");
+    fseek(file, bfOffBits, SEEK_SET);
+
+    //get start of data and save in bfOffBits
+    fread(&bfOffBits, bfOffBits_size , 1, file);
+
+    //seek position of data in file
+    fseek(file, bfOffBits, SEEK_SET);
+
+
+    //read data from bmp
+    fread(data, sizeof(uint8_t), sizeof(data), file);
+
+
+    //close file after usage
+    fclose(file);
+
+    return 0;
 }
 
 uint8_t saveBmpGray(char* filename, int32_t width, int32_t height, uint8_t* data)
