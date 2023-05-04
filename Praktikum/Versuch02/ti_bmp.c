@@ -6,20 +6,68 @@
 
 uint8_t* genBackgroundImage(int32_t width, int32_t height, uint8_t bgcolor)
 {
-    // TODO: Lösung aus Versuch 1 kopieren
-    return NULL;
+    //get datasize and generate image pointer
+    uint64_t datasize = width * height;
+    uint8_t* image = (uint8_t*) malloc(sizeof(uint8_t) * datasize);
+
+    //set each value of image array to bgcolor
+    for(uint64_t i = 0; i<datasize; i++)
+    {
+        *(image + i) = bgcolor;
+    }
+    return image;
 }
 
 void drawCircles(uint8_t* image, int32_t width, int32_t height, uint8_t circleCount, uint32_t pointsPerCircle, uint8_t color)
 {
-    // TODO: Lösung aus Versuch 1 kopieren
+    //get center of image M_B_X = M_B[0] and M_B_Y = M_B[1]
+    uint64_t M_B[2] = {(width/2), (height/2)};
+    //calculate smallest radius of image
+    uint64_t s_radius;
+    if(width<height) s_radius = width/circleCount;
+    else s_radius = ((height/(circleCount+0.5))/2);
+
+    //loop through points and calculate angle
+    double angle = 0, x_val = 0, y_val = 0;
+
+    //loop through number of circles to draw each circles
+    for(int j = 1; j<(circleCount+1); j++)
+    {
+        for(int i = 0; i< pointsPerCircle; i++)
+        {
+            //calculating angle and coordinates step by step to make code more readable
+            angle = (i/(float)pointsPerCircle)*2*M_PI;
+            x_val = s_radius* j * cos(angle);
+            y_val = s_radius* j  * sin(angle);
+
+            //use pointer_calc function to get translation of coordinates
+            *(image + pointer_calc((M_B[0] +(uint64_t) x_val),(M_B[1] + (uint64_t) y_val),height)) = color;
+        }
+    }
+}
+uint64_t pointer_calc(uint32_t x, uint32_t y, uint32_t height)
+{
+
+    uint64_t result;
+
+    //get length of addres through this formula and return it to get access to array
+    result = x + (y * height);
+
+    return result;
+
 }
 
 // checks if file exists
 int32_t existBmp(char* filename)
 {
-    // TODO:
-    return 42;
+    FILE* file = fopen("HM_cube.bmp", "r");
+    if (file == NULL){
+        printf("Datei konnte nicht gefunden bzw. geöffnet werden!\n");
+        return -1
+    }
+    fclose(file);
+
+    return 0;
 }
 
 // determine width of bmp image
