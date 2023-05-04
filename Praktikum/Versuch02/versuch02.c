@@ -7,15 +7,15 @@
 int main(int argc, char* argv[])
 {
     //get Image Data
-    uint32_t data_size = getBmpDataSize("HM_cube.bmp"), width = getBmpWidth("HM_cube.bmp"), height = getBmpHeight("HM_cube.bmp");
-    printf("Bildgröße: %d\n", data_size);
+    uint32_t data_size = getBmpDataSize("codeblocks1.bmp"), width = getBmpWidth("codeblocks1.bmp"), height = getBmpHeight("codeblocks1.bmp");
+    printf("Datengröße: %d\n", data_size);
     printf("Bildbreite: %d\n", width);
     printf("Bildhöhe: %d\n", height);
     // end application successfully
 
-    uint8_t data[width*height*8];
+    uint8_t data[data_size];
 
-    getBmpData("HM_cube.bmp", data);
+    getBmpData("codeblocks1.bmp", data);
 
     return 0;
 }
