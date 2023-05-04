@@ -6,18 +6,24 @@
 // main application
 int main(int argc, char* argv[])
 {
-    char filename[200] = "HM_cube.bmp";
+    char filename[200] = "test/codeblocks1.bmp";
 
-    //get Image Data
+    //get Image Properties
     uint32_t data_size = getBmpDataSize(filename), width = getBmpWidth(filename), height = getBmpHeight(filename);
     printf("Datengröße: %d\n", data_size);
     printf("Bildbreite: %d\n", width);
     printf("Bildhöhe: %d\n", height);
     // end application successfully
 
+    //get image data
     uint8_t data[data_size];
-
     getBmpData(filename, data);
 
+    //convert colorimage to grayscaleimage
+    uint8_t *image = convertRgb2Gray(data, data_size);
+
+    //safe converted image and freeup allocated space
+    saveBmpGray("Test1.bmp", width, height , image);
+    free(image);
     return 0;
 }
