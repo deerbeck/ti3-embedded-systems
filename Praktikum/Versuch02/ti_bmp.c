@@ -197,7 +197,7 @@ uint8_t getBmpData(char* filename, uint8_t* data)
 
 
     //read data from bmp
-    if (fread(data, sizeof(uint8_t), data_size, file) == 0) return -1;
+    fread(data, sizeof(uint8_t), data_size, file);
 
     //close file after usage
     fclose(file);

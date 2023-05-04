@@ -6,8 +6,10 @@
 // main application
 int main(int argc, char* argv[])
 {
+    char filename[200] = "HM_cube.bmp";
+
     //get Image Data
-    uint32_t data_size = getBmpDataSize("codeblocks1.bmp"), width = getBmpWidth("codeblocks1.bmp"), height = getBmpHeight("codeblocks1.bmp");
+    uint32_t data_size = getBmpDataSize(filename), width = getBmpWidth(filename), height = getBmpHeight(filename);
     printf("Datengröße: %d\n", data_size);
     printf("Bildbreite: %d\n", width);
     printf("Bildhöhe: %d\n", height);
@@ -15,7 +17,7 @@ int main(int argc, char* argv[])
 
     uint8_t data[data_size];
 
-    getBmpData("codeblocks1.bmp", data);
+    getBmpData(filename, data);
 
     return 0;
 }
