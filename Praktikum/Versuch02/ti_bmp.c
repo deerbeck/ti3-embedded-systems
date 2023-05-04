@@ -173,9 +173,9 @@ uint8_t* convertRgb2Gray(uint8_t* image, int32_t datasize)
     for (uint64_t i = 0; i < datasize; i ++)
     {
         //getting RGB-Values from each pixel using factor 3 to scale up the size of the RGB picture
-        red = image[i*3];
+        blue = image[i*3];
         green = image[i*3+1];
-        blue = image[i*3+2];
+        red = image[i*3+2];
 
         //calculating needed gray Value and write in newimage
         gray = 0.299 *red + 0.587*green + 0.114*blue;

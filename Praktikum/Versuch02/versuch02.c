@@ -6,7 +6,7 @@
 // main application
 int main(int argc, char* argv[])
 {
-    char filename[200] = "HM_cube.bmp";
+    char filename[200] = "test/codeblocks1.bmp";
 
     //get Image Properties
     uint32_t data_size = getBmpDataSize(filename), width = getBmpWidth(filename), height = getBmpHeight(filename);
@@ -23,7 +23,7 @@ int main(int argc, char* argv[])
     uint8_t *image = convertRgb2Gray(data, data_size/3);
 
     //safe converted image and freeup allocated space
-    saveBmpGray("Test1.bmp", width, height , image);
+    saveBmpGray("Test2.bmp", width, height , image);
     free(image);
     return 0;
 }
