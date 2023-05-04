@@ -167,10 +167,10 @@ uint32_t getBmpDataSize(char* filename)
 uint8_t* convertRgb2Gray(uint8_t* image, int32_t datasize)
 {
 //newimage is 1/3 of old image because it only need to be coded with one grayscale instead of Red Green and Blue
-    uint8_t* newimage = (uint8_t*) malloc(sizeof(uint8_t) *(datasize/3));
+    uint8_t* newimage = (uint8_t*) malloc(sizeof(uint8_t) *(datasize));
     uint8_t gray = 0, red = 0, green = 0, blue = 0;
 
-    for (uint64_t i = 0; i < datasize/3; i ++)
+    for (uint64_t i = 0; i < datasize; i ++)
     {
         //getting RGB-Values from each pixel using factor 3 to scale up the size of the RGB picture
         red = image[i*3];
