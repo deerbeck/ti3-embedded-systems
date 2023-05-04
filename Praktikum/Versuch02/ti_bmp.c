@@ -183,18 +183,17 @@ uint8_t getBmpData(char* filename, uint8_t* data)
     //define offset and size given from BMP definition which corresponds to the bmp data:
     int bfOffBits_offset = 10, bfOffBits_size = 4;
     //declare variable where size should be saved
-    uint32_t bfOffBits = 0, data_size = getBmpDataSize(filename);
+    uint32_t bfOffBits = 0, data_size = getBmpDataSize(filename), test;
 
-    //open file and seek position of needed position
+    //open file and seek position of needed bfOffBitsposition
     FILE* file = fopen(filename, "rb");
-    fseek(file, bfOffBits, SEEK_SET);
-
+    fseek(file, bfOffBits_offset, SEEK_SET);
     //get start of data and save in bfOffBits
     fread(&bfOffBits, bfOffBits_size, 1, file);
 
+
     //seek position of data in file
     fseek(file, bfOffBits, SEEK_SET);
-
 
     //read data from bmp
     fread(data, sizeof(uint8_t), data_size, file);
