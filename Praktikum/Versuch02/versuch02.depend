@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1683226631 source:/home/johannes/Documents/ti3-es/Praktikum/Versuch02/versuch02.c
+1683228497 source:/home/johannes/Documents/ti3-es/Praktikum/Versuch02/versuch02.c
 	<stdio.h>
 	<string.h>
 	"ti_bmp.h"
