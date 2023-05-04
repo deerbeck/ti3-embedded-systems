@@ -98,5 +98,11 @@ uint8_t* convertRgb2Gray(uint8_t* image, int datasize);
  */
 uint8_t getBmpData(char* filename, uint8_t* data);
 
+
+/*
+gets pointerindex from x and y coordinate
+*/
+uint64_t pointer_calc(uint32_t x, uint32_t y, uint32_t height);
+
 #endif
 

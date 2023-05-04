@@ -63,7 +63,7 @@ int32_t existBmp(char* filename)
     FILE* file = fopen("HM_cube.bmp", "r");
     if (file == NULL){
         printf("Datei konnte nicht gefunden bzw. geöffnet werden!\n");
-        return -1
+        return -1;
     }
     fclose(file);
 
