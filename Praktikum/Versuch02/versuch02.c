@@ -12,9 +12,11 @@ int main(int argc, char* argv[])
         printf("Usage: %s <RGB_file>\n", argv[0]);
         return 1;
     }
+
     //check file existance
     char filename[200];
     strcpy(filename, argv[1]);
+
     if (existBmp(filename) == -1) return 2;
 
     //create new filename which includes _gray
@@ -40,9 +42,9 @@ int main(int argc, char* argv[])
 
     //get Image Properties
     uint32_t data_size = getBmpDataSize(filename), width = getBmpWidth(filename), height = getBmpHeight(filename);
-    printf("Datengröße: %d\n", data_size);
-    printf("Bildbreite: %d\n", width);
-    printf("Bildhöhe: %d\n", height);
+        printf("Datengröße: %d\n", data_size);
+        printf("Bildbreite: %d\n", width);
+        printf("Bildhöhe: %d\n", height);
     // end application successfully
 
     //get image data

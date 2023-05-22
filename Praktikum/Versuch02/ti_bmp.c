@@ -77,9 +77,9 @@ int32_t getBmpWidth(char* filename)
     //check existance of file
     if (existBmp(filename) != 0)
     {
-        printf("Datei konnte nicht gefunden bzw. geöffnet werden!\n");
         return -1;
     }
+
     //define offset and size given from BMP definition which corresponds to the bmp width:
     int bmp_width_offset = 18, bmp_width_size = 4;
     //declare variable where size should be saved
@@ -106,7 +106,6 @@ int32_t getBmpHeight(char* filename)
     //check existance of file
     if (existBmp(filename) != 0)
     {
-        printf("Datei konnte nicht gefunden bzw. geöffnet werden!\n");
         return -1;
     }
     //define offset and size given from BMP definition which corresponds to the bmp height:
@@ -135,7 +134,6 @@ uint32_t getBmpDataSize(char* filename)
     //check existance of file
     if (existBmp(filename) != 0)
     {
-        printf("Datei konnte nicht gefunden bzw. geöffnet werden!\n");
         return -1;
     }
     //define offset and size given from BMP definition which corresponds to the bmp datasize and bfOffBits:
@@ -160,7 +158,7 @@ uint32_t getBmpDataSize(char* filename)
     fclose(file);
 
     //subtract bfOffBits which is the size of the header to only get datablock size
-    return data_size-bfOffBits;
+    return data_size - bfOffBits;
 }
 
 // conversion of rgb image to gray image
@@ -198,7 +196,7 @@ uint8_t getBmpData(char* filename, uint8_t* data)
     //define offset and size given from BMP definition which corresponds to the bmp data:
     int bfOffBits_offset = 10, bfOffBits_size = 4;
     //declare variable where size should be saved
-    uint32_t bfOffBits = 0, data_size = getBmpDataSize(filename), test;
+    uint32_t bfOffBits = 0, data_size = getBmpDataSize(filename);
 
     //open file and seek position of needed bfOffBitsposition
     FILE* file = fopen(filename, "rb");
