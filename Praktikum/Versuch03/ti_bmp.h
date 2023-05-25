@@ -100,6 +100,31 @@ uint8_t getBmpData(char* filename, uint8_t* data);
 
 
 // TODO: Struct
+/**
+ * kernel struct which contains a name[32] and the values of the 3x3 filtermatrix as floats
+ */
+typedef struct Kernel
+{
+    char name[32];
+
+    float values[9];
+
+} kernel;
+
+/**
+ * Image struct which contains the Bitmap Information of the Image
+ * contains width, height, datasize and the pointer to the Image data
+ */
+typedef struct Image
+{
+    int32_t width;
+    int32_t height;
+
+    uint32_t datasize;
+
+    uint8_t* data;
+
+} image;
 
 /**
  * prints image to stdout
@@ -116,5 +141,11 @@ void printfBMP(Image* img);
  * @param krnl kernel structure holding kernel values
  */
 void conv2D(Image* src, Image* dst, Kernel* krnl);
+
+/*
+gets pointerindex from x and y coordinate
+*/
+uint64_t pointer_calc(uint32_t x, uint32_t y, uint32_t height);
+
 
 #endif
