@@ -231,8 +231,20 @@ uint8_t getBmpData(char* filename, uint8_t* data)
 
 void printfBMP(Image* img)
 {
-    // TODO:
-    printf(img->height);
+    //print out width and height of image
+    printf("Width: %i   ",img->width);
+    printf("Height: %i\n", img->height);
+
+    //loop through image data and print it out on console
+    for(int i = img->height-1; i > -1; i--)
+    {
+        for(int j = 0; j< img->width; j++)
+        {
+            //start with the last item and get through each row
+            printf("%d\t",img->data[i*img->width + j]);
+        }
+        printf("\n");
+    }
 
 }
 

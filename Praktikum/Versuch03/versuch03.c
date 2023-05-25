@@ -35,11 +35,16 @@ int main(int argc, char* argv[])
     pimg->data = (uint8_t*) malloc(pimg->datasize);
     getBmpData(filename,pimg->data);
 
+    //print Image Data (only for smaller images)
+    printfBMP(pimg);
 
     printf("%s", filename);
 
 
     // end application successfully
 
+
+    //free allocated storage
+    free(pimg->data);
     return 0;
 }
