@@ -109,7 +109,7 @@ typedef struct Kernel
 
     float values[9];
 
-} kernel;
+} Kernel;
 
 /**
  * Image struct which contains the Bitmap Information of the Image
@@ -124,7 +124,7 @@ typedef struct Image
 
     uint8_t* data;
 
-} image;
+} Image;
 
 /**
  * prints image to stdout

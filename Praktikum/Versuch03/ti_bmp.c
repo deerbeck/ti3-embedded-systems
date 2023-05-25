@@ -232,6 +232,8 @@ uint8_t getBmpData(char* filename, uint8_t* data)
 void printfBMP(Image* img)
 {
     // TODO:
+    printf(img->height);
+
 }
 
 void conv2D(Image* src, Image* dst, Kernel* krnl)
