@@ -142,10 +142,14 @@ void printfBMP(Image* img);
  */
 void conv2D(Image* src, Image* dst, Kernel* krnl);
 
-/*
+/**
 gets pointerindex from x and y coordinate
 */
 uint64_t pointer_calc(uint32_t x, uint32_t y, uint32_t height);
 
+/**
+*read kernels from provided file
+*/
+Kernel* readKrnls(char* filename);
 
 #endif

@@ -10,18 +10,23 @@
 int main(int argc, char* argv[])
 {
 
-    if(argc != 2)
+    if(argc != 3)
     {
-        printf("Usage: %s <filename>\n", argv[0]);
+        printf("Usage: %s <filename> <kernels>\n", argv[0]);
         return -1;
     }
-    //copy filename from argv[1]
-    char filename[sizeof(argv[1])*sizeof(char)];
+    //copy filename from argv
+    char filename[strlen(argv[1])+1];
     strcpy(filename,argv[1]);
+
+    //copy kernel filename from argv
+    char kernels[strlen(argv[2])+1];
+    strcpy(kernels, argv[2]);
 
 
     //check file existance
     if (existBmp(filename) == -1) return 2;
+    if (existBmp(kernels) == -1) return 3;
 
     //create new image struct and its corresponding pointer
     Image src,dst;
@@ -42,30 +47,72 @@ int main(int argc, char* argv[])
     pdst->datasize = psrc->datasize;
     pdst->data = (uint8_t*) malloc(pdst->datasize);
 
-    //create dummy kernel
-    Kernel krnl;
-    Kernel* pkrnl = &krnl;
+    //read in Kernels from provided kernel file
+    Kernel* kernel_array = readKrnls(kernels);
 
-    //define values of kernel
-    strcpy(pkrnl->name, "Dummy-Kernel");
-    float val_src[] = {0.8, -0.7 , 0.6 , -0.5 , 0.4 , 0.3 , 0.2 , -0.1 , 0.0};
-    memcpy(pkrnl->values,val_src, sizeof(val_src)*sizeof(float));
+int test = sizeof(kernel_array);
+    for(int i = 0; i < (test); i++)
+    {
+        //create new filename which includes _gray
+        char new_filename[strlen(filename)+ strlen(kernel_array[i].name) + 40];
+        strcpy(new_filename, filename);
+
+        //find . in filename to get pointer to that address
+        char* dot_ptr = strchr(new_filename,'.');
+
+        //overwrite everything after . in origin filename using dot_ptr
+        if (dot_ptr != NULL)
+        {
+            //format fileending using sprintf and a buffer string with the kernelname
+            char buffer[strlen(kernel_array[i].name)+10];
+            sprintf(buffer,"_%s.bmp",(kernel_array[i].name));
+            strcpy(dot_ptr, buffer);
+        }
+
+        //in case filename does not have .bmp ending (highly unlikely because main fails before)
+        else
+        {
+            //format fileending using sprintf and a buffer string with the kernelname
+            char buffer[strlen(kernel_array[i].name)+10];
+            sprintf(buffer,"_%s.bmp",kernel_array[i].name);
+            strcat(new_filename, buffer);
+        }
+
+        //convolut the input picture with current kernel
+        conv2D(psrc, pdst, &kernel_array[i]);
+
+        //safe convoluted picture in new bmp with different file ending
+        saveBmpGray(new_filename,psrc->width,psrc->height,pdst->data);
+
+    }
 
 
 
-    //print Image Data (only for smaller images)
-    printfBMP(psrc);
-
-
-    conv2D(psrc,pdst,pkrnl);
-    printf("Destinaton:\n");
-    printfBMP(pdst);
-    printf("%s", filename);
+//    //create dummy kernel
+//    Kernel krnl;
+//    Kernel* pkrnl = &krnl;
+//
+//    //define values of kernel
+//    strcpy(pkrnl->name, "Dummy-Kernel");
+//    float val_src[] = {0.8, -0.7, 0.6, -0.5, 0.4, 0.3, 0.2, -0.1, 0.0};
+//    memcpy(pkrnl->values,val_src, sizeof(val_src)*sizeof(float));
+//
+//
+//
+//    //print Image Data (only for smaller images)
+//    printfBMP(psrc);
+//
+//
+//    conv2D(psrc,pdst,pkrnl);
+//    printf("Destinaton:\n");
+//    printfBMP(pdst);
+//    printf("%s", filename);
 
     // end application successfully
 
-
+    printf("Bilder erfolgreich gefiltert!");
     //free allocated storage
+    free(kernel_array);
     free(psrc->data);
     free(pdst->data);
     return 0;
