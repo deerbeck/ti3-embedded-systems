@@ -24,27 +24,49 @@ int main(int argc, char* argv[])
     if (existBmp(filename) == -1) return 2;
 
     //create new image struct and its corresponding pointer
-    Image img;
-    Image* pimg = &img;
+    Image src,dst;
+    Image* psrc = &src;
+    Image* pdst = &dst;
 
-    //set values of struct to read data from header
-    pimg->width = getBmpWidth(filename);
-    pimg->height = getBmpHeight(filename);
-    pimg->datasize = getBmpDataSize(filename);
+    //set values of src image with data from helper functions
+    psrc->width = getBmpWidth(filename);
+    psrc->height = getBmpHeight(filename);
+    psrc->datasize = getBmpDataSize(filename);
     //create pointer of size data to get data
-    pimg->data = (uint8_t*) malloc(pimg->datasize);
-    getBmpData(filename,pimg->data);
+    psrc->data = (uint8_t*) malloc(psrc->datasize);
+    getBmpData(filename,psrc->data);
+
+    //create destination image struct with same key data as source image
+    pdst->width = psrc->width;
+    pdst->height = psrc->height;
+    pdst->datasize = psrc->datasize;
+    pdst->data = (uint8_t*) malloc(pdst->datasize);
+
+    //create dummy kernel
+    Kernel krnl;
+    Kernel* pkrnl = &krnl;
+
+    //define values of kernel
+    strcpy(pkrnl->name, "Dummy-Kernel");
+    float val_src[] = {0.8, -0.7 , 0.6 , -0.5 , 0.4 , 0.3 , 0.2 , -0.1 , 0.0};
+    memcpy(pkrnl->values,val_src, sizeof(val_src)*sizeof(float));
+
+
 
     //print Image Data (only for smaller images)
-    printfBMP(pimg);
+    printfBMP(psrc);
 
+
+    conv2D(psrc,pdst,pkrnl);
+    printf("Destinaton:\n");
+    printfBMP(pdst);
     printf("%s", filename);
-
 
     // end application successfully
 
 
     //free allocated storage
-    free(pimg->data);
+    free(psrc->data);
+    free(pdst->data);
     return 0;
 }

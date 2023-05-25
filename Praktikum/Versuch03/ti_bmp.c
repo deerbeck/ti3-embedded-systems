@@ -250,7 +250,33 @@ void printfBMP(Image* img)
 
 void conv2D(Image* src, Image* dst, Kernel* krnl)
 {
-    // TODO:
+    for(int i = src->height-1; i > -1; i--)
+    {
+        for(int j = 0; j < src->width; j++)
+        {
+            if(i==0)
+            {
+                dst->data[i*src->width + j] = 0;
+            }
+            else if (i == src->height-1)
+            {
+                dst->data[i*src->width + j] = 0;
+            }
+
+            else if (j == 0)
+            {
+                dst->data[i*src->width + j] = 0;
+            }
+            else if (j == src->width-1)
+            {
+                dst->data[i*src->width + j] = 0;
+            }
+            else
+            {
+                dst->data[i*src->width + j] = (int)(src->data[(i+1)*src->width+j-1]*krnl->values[0] + src->data[(i+1)*src->width+j]*krnl->values[1] + src->data[(i+1)*src->width+j+1]*krnl->values[2] + src->data[(i)*src->width+j-1]*krnl->values[3] + src->data[(i)*src->width+j]*krnl->values[4] + src->data[(i)*src->width+j+1]*krnl->values[5] + src->data[(i-1)*src->width+j-1]*krnl->values[6] + src->data[(i-1)*src->width+j]*krnl->values[7] + src->data[(i-1)*src->width+j+1]*krnl->values[8]);
+            }
+        }
+    }
 }
 
 uint8_t saveBmpGray(char* filename, int32_t width, int32_t height, uint8_t* data)
