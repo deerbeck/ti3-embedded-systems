@@ -1,7 +1,9 @@
 #include <stdio.h>
 #include <string.h>
 #include "ti_bmp.h"
-
+#include <sys/types.h>
+#include <sys/wait.h>
+#include <unistd.h>
 
 #define FILENAME "HM_admin_gray.bmp"
 
@@ -50,43 +52,59 @@ int main(int argc, char* argv[])
     //read in Kernels from provided kernel file
     Kernel* kernel_array = readKrnls(kernels);
 
-int test = sizeof(kernel_array);
-    for(int i = 0; i < (test); i++)
+    int kernelcount = sizeof(kernel_array);
+    for(int i = 0; i < (kernelcount); i++)
     {
-        //create new filename which includes _gray
-        char new_filename[strlen(filename)+ strlen(kernel_array[i].name) + 40];
-        strcpy(new_filename, filename);
-
-        //find . in filename to get pointer to that address
-        char* dot_ptr = strchr(new_filename,'.');
-
-        //overwrite everything after . in origin filename using dot_ptr
-        if (dot_ptr != NULL)
+        //For each Kernel-Application a child process has to be created
+        if(fork() == 0)
         {
-            //format fileending using sprintf and a buffer string with the kernelname
-            char buffer[strlen(kernel_array[i].name)+10];
-            sprintf(buffer,"_%s.bmp",(kernel_array[i].name));
-            strcpy(dot_ptr, buffer);
+            //convolut the input picture with current kernel
+            conv2D(psrc, pdst, &kernel_array[i]);
+
+            //create new filename which includes _gray
+            char new_filename[strlen(filename)+ strlen(kernel_array[i].name) + 40];
+            strcpy(new_filename, filename);
+
+            //find . in filename to get pointer to that address
+            char* dot_ptr = strchr(new_filename,'.');
+
+            //overwrite everything after . in origin filename using dot_ptr
+            if (dot_ptr != NULL)
+            {
+                //format fileending using sprintf and a buffer string with the kernelname
+                char buffer[strlen(kernel_array[i].name)+10];
+                sprintf(buffer,"_%s.bmp",(kernel_array[i].name));
+                strcpy(dot_ptr, buffer);
+            }
+
+            //in case filename does not have .bmp ending (highly unlikely because main fails before)
+            else
+            {
+                //format fileending using sprintf and a buffer string with the kernelname
+                char buffer[strlen(kernel_array[i].name)+10];
+                sprintf(buffer,"_%s.bmp",kernel_array[i].name);
+                strcat(new_filename, buffer);
+            }
+
+
+
+            //safe convoluted picture in new bmp with different file ending
+            saveBmpGray(new_filename,psrc->width,psrc->height,pdst->data);
+
+            //exit child process
+            exit(0);
+
         }
-
-        //in case filename does not have .bmp ending (highly unlikely because main fails before)
-        else
-        {
-            //format fileending using sprintf and a buffer string with the kernelname
-            char buffer[strlen(kernel_array[i].name)+10];
-            sprintf(buffer,"_%s.bmp",kernel_array[i].name);
-            strcat(new_filename, buffer);
-        }
-
-        //convolut the input picture with current kernel
-        conv2D(psrc, pdst, &kernel_array[i]);
-
-        //safe convoluted picture in new bmp with different file ending
-        saveBmpGray(new_filename,psrc->width,psrc->height,pdst->data);
-
     }
 
+//parent process has to wait for end of all child processes (Zombie)
+    int status;
+    int pid;
 
+    while((pid = wait(&status))>0)
+    {
+        printf("Kind Prozess %d beendet: %d\n", pid, status);
+    }
 
 //    //create dummy kernel
 //    Kernel krnl;
