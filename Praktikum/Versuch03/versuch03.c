@@ -74,7 +74,9 @@ int main(int argc, char* argv[])
             {
                 //format fileending using sprintf and a buffer string with the kernelname
                 char buffer[strlen(kernel_array[i].name)+10];
+                //write new filename ending into buffer string
                 sprintf(buffer,"_%s.bmp",(kernel_array[i].name));
+                //write new filenameending at the place from the dot pointer
                 strcpy(dot_ptr, buffer);
             }
 
@@ -83,7 +85,9 @@ int main(int argc, char* argv[])
             {
                 //format fileending using sprintf and a buffer string with the kernelname
                 char buffer[strlen(kernel_array[i].name)+10];
+                //write new filename ending into buffer string
                 sprintf(buffer,"_%s.bmp",kernel_array[i].name);
+                //write new filenameending at the place from the dot pointer
                 strcat(new_filename, buffer);
             }
 

@@ -245,18 +245,19 @@ void printfBMP(Image* img)
         }
         printf("\n");
     }
-
 }
 
 //convolution of provided img
 void conv2D(Image* src, Image* dst, Kernel* krnl)
 {
+    long pixelvalue;
     //convolution of image from source to destination
     for(int i = src->height-1; i > -1; i--)
     {
         for(int j = 0; j < src->width; j++)
         {
             // first 4 cases to determine border of picture and set border to 0
+            //set horizontal border to 0
             if(i==0)
             {
                 dst->data[i*src->width + j] = 0;
@@ -265,7 +266,7 @@ void conv2D(Image* src, Image* dst, Kernel* krnl)
             {
                 dst->data[i*src->width + j] = 0;
             }
-
+            //set vertical borders to 0
             else if (j == 0)
             {
                 dst->data[i*src->width + j] = 0;
@@ -277,7 +278,14 @@ void conv2D(Image* src, Image* dst, Kernel* krnl)
             //calculate new pixel value with given kernel
             else
             {
-                dst->data[i*src->width + j] = (int)(src->data[(i+1)*src->width+j-1]*krnl->values[0] + src->data[(i+1)*src->width+j]*krnl->values[1] + src->data[(i+1)*src->width+j+1]*krnl->values[2] + src->data[(i)*src->width+j-1]*krnl->values[3] + src->data[(i)*src->width+j]*krnl->values[4] + src->data[(i)*src->width+j+1]*krnl->values[5] + src->data[(i-1)*src->width+j-1]*krnl->values[6] + src->data[(i-1)*src->width+j]*krnl->values[7] + src->data[(i-1)*src->width+j+1]*krnl->values[8]);
+                //safe new pixelvalue into buffervariable
+                pixelvalue = = (int)(src->data[(i+1)*src->width+j-1]*krnl->values[0] + src->data[(i+1)*src->width+j]*krnl->values[1] + src->data[(i+1)*src->width+j+1]*krnl->values[2] + src->data[(i)*src->width+j-1]*krnl->values[3] + src->data[(i)*src->width+j]*krnl->values[4] + src->data[(i)*src->width+j+1]*krnl->values[5] + src->data[(i-1)*src->width+j-1]*krnl->values[6] + src->data[(i-1)*src->width+j]*krnl->values[7] + src->data[(i-1)*src->width+j+1]*krnl->values[8]);
+                //check boundaries of allowed pixelvalue
+                if (pixelvalue < 0) pixelvalue = 0;
+                else if (pixelvalue > 255) pixelvalue = 255;
+                //safe new pixelvalue into data
+                dst->data[i*src->width + j] = (uint8_t) pixelvalue;
+
             }
         }
     }
@@ -286,31 +294,35 @@ void conv2D(Image* src, Image* dst, Kernel* krnl)
 //read kernels from provided file
 Kernel* readKrnls(char* filename)
 {
+    //read in file and initialize varibales
     FILE* file = fopen(filename, "r");
     char buffer[200];
     int lines = 0;
     char c;
 
+    //loop through lines to get nunber of kernels
     while((c = fgetc(file)) != EOF)
     {
         if (c == '\n') lines++;
     }
 
-
-
+    //reset file courser to start of file
     fseek(file,0,0);
 
+    //allocate memory for the kernelarray
     Kernel* kernel_array = (Kernel*) malloc(lines*sizeof(Kernel));
 
+    //read out kernel data from txt file
     int line = 0;
     while(fgets(buffer,sizeof(buffer), file) != NULL)
     {
+        //use sscanf f to read out formated string from line
         sscanf(buffer,"%s %f %f %f %f %f %f %f %f %f\r\n", kernel_array[line].name, &kernel_array[line].values[0], &kernel_array[line].values[1], &kernel_array[line].values[2],&kernel_array[line].values[3], &kernel_array[line].values[4],&kernel_array[line].values[5],&kernel_array[line].values[6],&kernel_array[line].values[7],&kernel_array[line].values[8]);
         line++;
     }
 
 
-
+    //close file and return array
     fclose(file);
     return kernel_array;
 }
