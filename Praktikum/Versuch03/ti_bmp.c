@@ -279,7 +279,7 @@ void conv2D(Image* src, Image* dst, Kernel* krnl)
             else
             {
                 //safe new pixelvalue into buffervariable
-                pixelvalue = = (int)(src->data[(i+1)*src->width+j-1]*krnl->values[0] + src->data[(i+1)*src->width+j]*krnl->values[1] + src->data[(i+1)*src->width+j+1]*krnl->values[2] + src->data[(i)*src->width+j-1]*krnl->values[3] + src->data[(i)*src->width+j]*krnl->values[4] + src->data[(i)*src->width+j+1]*krnl->values[5] + src->data[(i-1)*src->width+j-1]*krnl->values[6] + src->data[(i-1)*src->width+j]*krnl->values[7] + src->data[(i-1)*src->width+j+1]*krnl->values[8]);
+                pixelvalue = (int)(src->data[(i+1)*src->width+j-1]*krnl->values[0] + src->data[(i+1)*src->width+j]*krnl->values[1] + src->data[(i+1)*src->width+j+1]*krnl->values[2] + src->data[(i)*src->width+j-1]*krnl->values[3] + src->data[(i)*src->width+j]*krnl->values[4] + src->data[(i)*src->width+j+1]*krnl->values[5] + src->data[(i-1)*src->width+j-1]*krnl->values[6] + src->data[(i-1)*src->width+j]*krnl->values[7] + src->data[(i-1)*src->width+j+1]*krnl->values[8]);
                 //check boundaries of allowed pixelvalue
                 if (pixelvalue < 0) pixelvalue = 0;
                 else if (pixelvalue > 255) pixelvalue = 255;
