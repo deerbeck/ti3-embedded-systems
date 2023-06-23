@@ -39,6 +39,7 @@ int main(int argc, char* argv[])
     psrc->width = getBmpWidth(filename);
     psrc->height = getBmpHeight(filename);
     psrc->datasize = getBmpDataSize(filename);
+
     //create pointer of size data to get data
     psrc->data = (uint8_t*) malloc(psrc->datasize);
     getBmpData(filename,psrc->data);

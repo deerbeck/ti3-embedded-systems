@@ -290,6 +290,7 @@ Kernel* readKrnls(char* filename)
     char buffer[200];
     int lines = 0;
     char c;
+
     while((c = fgetc(file)) != EOF)
     {
         if (c == '\n') lines++;
