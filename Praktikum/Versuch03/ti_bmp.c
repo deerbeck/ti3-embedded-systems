@@ -250,43 +250,28 @@ void printfBMP(Image* img)
 //convolution of provided img
 void conv2D(Image* src, Image* dst, Kernel* krnl)
 {
-    long pixelvalue;
-    //convolution of image from source to destination
-    for(int i = src->height-1; i > -1; i--)
-    {
-        for(int j = 0; j < src->width; j++)
-        {
-            // first 4 cases to determine border of picture and set border to 0
-            //set horizontal border to 0
-            if(i==0)
-            {
-                dst->data[i*src->width + j] = 0;
-            }
-            else if (i == src->height-1)
-            {
-                dst->data[i*src->width + j] = 0;
-            }
-            //set vertical borders to 0
-            else if (j == 0)
-            {
-                dst->data[i*src->width + j] = 0;
-            }
-            else if (j == src->width-1)
-            {
-                dst->data[i*src->width + j] = 0;
-            }
-            //calculate new pixel value with given kernel
-            else
-            {
-                //safe new pixelvalue into buffervariable
-                pixelvalue = (int)(src->data[(i+1)*src->width+j-1]*krnl->values[0] + src->data[(i+1)*src->width+j]*krnl->values[1] + src->data[(i+1)*src->width+j+1]*krnl->values[2] + src->data[(i)*src->width+j-1]*krnl->values[3] + src->data[(i)*src->width+j]*krnl->values[4] + src->data[(i)*src->width+j+1]*krnl->values[5] + src->data[(i-1)*src->width+j-1]*krnl->values[6] + src->data[(i-1)*src->width+j]*krnl->values[7] + src->data[(i-1)*src->width+j+1]*krnl->values[8]);
-                //check boundaries of allowed pixelvalue
-                if (pixelvalue < 0) pixelvalue = 0;
-                else if (pixelvalue > 255) pixelvalue = 255;
-                //safe new pixelvalue into data
-                dst->data[i*src->width + j] = (uint8_t) pixelvalue;
+    float pixelvalue;
 
-            }
+    //prefill dst kernel with 0 to handle borders
+    memset(dst->data, 0, sizeof(dst->data));
+
+    //convolution of image from source to destination
+    //can ignore borders of j and i because they are already prefilled with 0
+    for(int i = src->height-2; i > 0; i--)
+    {
+        for(int j = 1; j < src->width-1; j++)
+        {
+
+            //safe new pixelvalue into buffervariable
+            pixelvalue = (src->data[(i+1)*src->width+j-1]*krnl->values[0] + src->data[(i+1)*src->width+j]*krnl->values[1] + src->data[(i+1)*src->width+j+1]*krnl->values[2]+
+                          src->data[(i)*src->width+j-1]*krnl->values[3] + src->data[(i)*src->width+j]*krnl->values[4] + src->data[(i)*src->width+j+1]*krnl->values[5] +
+                          src->data[(i-1)*src->width+j-1]*krnl->values[6] + src->data[(i-1)*src->width+j]*krnl->values[7] + src->data[(i-1)*src->width+j+1]*krnl->values[8]);
+            //check boundaries of allowed pixelvalue
+            if (pixelvalue < 0) pixelvalue = 0;
+            else if (pixelvalue > 255) pixelvalue = 255;
+            //safe new pixelvalue into data
+            dst->data[i*src->width + j] = (uint8_t) pixelvalue;
+
         }
     }
 }
@@ -317,7 +302,8 @@ Kernel* readKrnls(char* filename)
     while(fgets(buffer,sizeof(buffer), file) != NULL)
     {
         //use sscanf f to read out formated string from line
-        sscanf(buffer,"%s %f %f %f %f %f %f %f %f %f\r\n", kernel_array[line].name, &kernel_array[line].values[0], &kernel_array[line].values[1], &kernel_array[line].values[2],&kernel_array[line].values[3], &kernel_array[line].values[4],&kernel_array[line].values[5],&kernel_array[line].values[6],&kernel_array[line].values[7],&kernel_array[line].values[8]);
+        sscanf(buffer,"%s %f %f %f %f %f %f %f %f %f\r\n", kernel_array[line].name, &kernel_array[line].values[0], &kernel_array[line].values[1], &kernel_array[line].values[2],
+               &kernel_array[line].values[3], &kernel_array[line].values[4],&kernel_array[line].values[5],&kernel_array[line].values[6],&kernel_array[line].values[7],&kernel_array[line].values[8]);
         line++;
     }
 
