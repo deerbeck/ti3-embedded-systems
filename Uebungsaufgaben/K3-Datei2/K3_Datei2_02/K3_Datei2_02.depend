@@ -1,0 +1,6 @@
+# depslib dependency file v1.0
+1688131591 source:/home/johannes/Documents/ti3-es/Uebungsaufgaben/K3-Datei2/K3_Datei2_02/main.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+

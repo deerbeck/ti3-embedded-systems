@@ -1,0 +1,5 @@
+# depslib dependency file v1.0
+1688130154 source:/home/johannes/Documents/ti3-es/Uebungsaufgaben/K3-Datei2/K3_Datei2_01/copy.c
+	<stdio.h>
+	<stdlib.h>
+
