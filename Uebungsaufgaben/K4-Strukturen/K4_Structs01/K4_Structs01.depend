@@ -1,0 +1,6 @@
+# depslib dependency file v1.0
+1688539644 source:/home/johannes/Documents/ti3-es/Uebungsaufgaben/K4-Strukturen/K4_Structs01/main.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+
